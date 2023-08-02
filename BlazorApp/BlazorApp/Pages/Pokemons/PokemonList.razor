@@ -1,0 +1,48 @@
+﻿@page "/pokemon-list"
+
+<h3>Lista de Pokémons</h3>
+
+@if (pokemons == null)
+{
+    <p>Carregando...</p>
+}
+else
+{
+    @foreach (var pokemon in pokemons)
+    {
+        <div class="pokemon-card">
+            <img src="@pokemon.SpriteUrl" alt="@pokemon.Name" />
+            <p>@pokemon.Name</p>
+        </div>
+    }
+}
+
+@code {
+    private Pokemon[] pokemons;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var httpClient = new HttpClient();
+        var response = await httpClient.GetFromJsonAsync<PokemonListResponse>("https://pokeapi.co/api/v2/pokemon?limit=10");
+        pokemons = response.Results;
+    }
+
+    public class PokemonListResponse
+    {
+        public Pokemon[] Results { get; set; }
+    }
+
+    public class Pokemon
+    {
+        public string Name { get; set; }
+        public string Url { get; set; }
+
+        public string SpriteUrl => $"https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/{GetPokemonIdFromUrl()}.png";
+
+        private int GetPokemonIdFromUrl()
+        {
+            var segments = Url.Split('/');
+            return int.Parse(segments[segments.Length - 2]);
+        }
+    }
+}
