@@ -1,0 +1,43 @@
+﻿<h3>Lista de Tarefas</h3>
+
+<div class="uk-margin">
+    <div class="uk-inline-clip uk-width-1-1">
+        <button class="uk-form-icon uk-form-icon-flip" uk-icon="icon: plus-circle" @onclick="AddNewTask"></button>
+        <input class="uk-input uk-form-large uk-width-1-1" placeholder="Nova tarefa" @bind="novaTarefa"/>
+    </div>
+</div>
+
+<div>
+    <ul class="uk-list uk-list-divider uk-list-large">
+        @foreach (var item in listaTarefas)
+        {
+            <li>
+                <label>
+                    <input class="uk-checkbox" type="checkbox" @bind="item.IsDone" /> @item.Title
+                </label>
+            </li>
+        }
+    </ul>
+</div>
+
+@code {
+    public class ToDoItem
+    {
+        public String Title { get; set; }
+        public bool IsDone { get; set; }
+    }
+
+    private string novaTarefa = "";
+    private List<ToDoItem> listaTarefas = new List<ToDoItem>();
+
+    void AddNewTask()
+    {
+        if (!string.IsNullOrWhiteSpace(novaTarefa))
+        {
+            listaTarefas.Add(
+                new ToDoItem { Title = novaTarefa }
+            );
+            novaTarefa = "";
+        }
+    }
+}

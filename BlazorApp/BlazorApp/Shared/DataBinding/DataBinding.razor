@@ -1,0 +1,43 @@
+﻿<style>
+    .h2[teste]{
+        color:red;
+    }
+</style>
+
+<h2>Data Binding</h2>
+
+<h3><b>One Way</b>  Data Binding:</h3>
+<div class="uk-margin">
+    <div class="uk-inline-clip uk-width-1-1">
+        <p>Mensagem: @OneWay</p>
+    </div>
+</div>
+
+<h3><i>1) </i><b>Two Way</b> Data Binding:</h3>
+<div class="uk-margin">
+    <div class="uk-inline-clip uk-width-1-1">
+        <input class="uk-input uk-form-large uk-width-1-1" placeholder="Digite aqui" @bind="TwoWay" />
+        <p>Você digitou: @TwoWay</p>
+    </div>
+</div>
+
+<h3><i>2) </i><b>Two Way</b> Data Binding Automático:</h3>
+<div class="uk-margin">
+    <div class="uk-inline-clip uk-width-1-1">
+        <input class="uk-input uk-form-large uk-width-1-1" placeholder="Digite aqui" @bind="Texto" @oninput="AtualizarTexto" />
+        <p>Você digitou: @Texto</p>
+    </div>
+</div>
+
+@code {
+    String OneWay = "aaaaaaaaaaaaa";
+
+    String TwoWay = "Gabriel";
+
+    String Texto = "texto";
+
+    void AtualizarTexto(ChangeEventArgs e)
+    {
+        Texto = e.Value.ToString();
+    }
+}
